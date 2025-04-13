@@ -9,7 +9,7 @@ option java_package = "com.geeksville.mesh";
 option swift_prefix = "";
 
 /*
- * TODO: REPLACE
+ * Basic PAX counter message for simple device counts
  */
 message Paxcount {
   /*
@@ -26,4 +26,59 @@ message Paxcount {
    * Uptime in seconds
    */
   uint32 uptime = 3;
+}
+
+/*
+ * Detailed device information for a single detected device
+ */
+message PaxDevice {
+  /*
+   * MAC address of the device (as byte array)
+   */
+  bytes mac_address = 1;
+
+  /*
+   * Signal strength in dBm
+   */
+  int32 rssi = 2;
+
+  /*
+   * Device type (0 = unknown, 1 = WiFi, 2 = BLE)
+   */
+  uint32 device_type = 3;
+
+  /*
+   * First time seen (timestamp in seconds since boot)
+   */
+  uint32 first_seen = 4;
+
+  /*
+   * Last time seen (timestamp in seconds since boot)
+   */
+  uint32 last_seen = 5;
+}
+
+/*
+ * List of detected PAX devices with detailed information
+ */
+message PaxList {
+  /*
+   * List of detailed device information
+   */
+  repeated PaxDevice devices = 1;
+
+  /*
+   * Uptime in seconds
+   */
+  uint32 uptime = 2;
+
+  /*
+   * Total WiFi devices count (for convenience)
+   */
+  uint32 wifi_count = 3;
+
+  /*
+   * Total BLE devices count (for convenience)
+   */
+  uint32 ble_count = 4;
 }
