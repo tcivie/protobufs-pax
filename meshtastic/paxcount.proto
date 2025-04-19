@@ -29,7 +29,16 @@ message Paxcount {
 }
 
 /*
- * Detailed device information for a single detected device
+ * Device type enum matching libpax snifftype_t
+ */
+enum DeviceType {
+  DEVICE_TYPE_UNKNOWN = 0; // Renamed from UNKNOWN
+  DEVICE_TYPE_WIFI = 1;    // Renamed from WIFI
+  DEVICE_TYPE_BLE = 2;     // Renamed from BLE
+}
+
+/*
+ * Detailed device information for a single detected device matching pax_device_info_t
  */
 message PaxDevice {
   /*
@@ -38,28 +47,23 @@ message PaxDevice {
   bytes mac_address = 1;
 
   /*
-   * Signal strength in dBm
+   * Device type (WIFI or BLE)
    */
-  int32 rssi = 2;
+  DeviceType device_type = 2;
 
   /*
-   * Device type (0 = unknown, 1 = WiFi, 2 = BLE)
+   * Signal strength as uint8_t
    */
-  uint32 device_type = 3;
+  uint32 rssi = 3;
 
   /*
-   * First time seen (timestamp in seconds since boot)
+   * Time when detected (timestamp in seconds since boot)
    */
-  uint32 first_seen = 4;
-
-  /*
-   * Last time seen (timestamp in seconds since boot)
-   */
-  uint32 last_seen = 5;
+  uint32 timestamp = 4;
 }
 
 /*
- * List of detected PAX devices with detailed information
+ * List of detected PAX devices with detailed information matching pax_device_list_t
  */
 message PaxList {
   /*
@@ -68,17 +72,12 @@ message PaxList {
   repeated PaxDevice devices = 1;
 
   /*
-   * Uptime in seconds
+   * Current number of devices in the list
    */
-  uint32 uptime = 2;
+  uint32 count = 2;
 
   /*
-   * Total WiFi devices count (for convenience)
+   * Maximum capacity of the list
    */
-  uint32 wifi_count = 3;
-
-  /*
-   * Total BLE devices count (for convenience)
-   */
-  uint32 ble_count = 4;
+  uint32 capacity = 3;
 }
